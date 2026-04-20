@@ -39,4 +39,35 @@ public class OrdenamientoMejorado {
         System.out.println("Comparaciones: " + comparaciones);
         System.out.println("Intercambios: " + intercambios);
     }
+
+    // Selection Sort con contadores
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+
+        int comparaciones = 0;
+        int intercambios = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+
+            for (int j = i + 1; j < n; j++) {
+                comparaciones++;
+                if (arr[j] < arr[minIdx]) {
+                    minIdx = j;
+                }
+            }
+
+            // Solo intercambia si el mínimo no es ya el elemento actual
+            if (minIdx != i) {
+                int temp = arr[minIdx];
+                arr[minIdx] = arr[i];
+                arr[i] = temp;
+                intercambios++;
+            }
+        }
+
+        // print resultados
+        System.out.println("Comparaciones: " + comparaciones);
+        System.out.println("Intercambios: " + intercambios);
+    }
 }
