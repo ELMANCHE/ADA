@@ -32,15 +32,4 @@ public class Problema1 {
         return ordenmartina(arreglo, n - 1);
     }
 
-    public static void main(String[] args) {
-        Problema1 solucion = new Problema1();
-
-        // pruebas que nos dio en el ejercicio
-        int[] ejemplo1 = {1, 2, 3, 5, 8};
-        int[] ejemplo2 = {1, 4, 2, 8};
-
-        System.out.println("ejercicio1");
-        System.out.println("primer arreglo : " + Arrays.toString(ejemplo1) + " = esta ordenado o no matina?: " + solucion.martinaverifica(ejemplo1));
-        System.out.println("segundo arreglo : " + Arrays.toString(ejemplo2) + " = esta ordenado o no matina?: " + solucion.martinaverifica(ejemplo2));
-    }
 }
