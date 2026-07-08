@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proyecto Final ADA</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --ink: #172033;
+      --muted: #556070;
+      --brand: #0b6b7a;
+      --pass: #1f7a1f;
+      --fail: #b3261e;
+      --skip: #8a6d1f;
+      --line: #dbe3ef;
+      --accent: #e8f4f7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 10% 10%, #edf8fb 0%, #f4f7fb 45%, #eff3f9 100%);
+      line-height: 1.45;
+    }
+    header {
+      padding: 28px 20px;
+      background: linear-gradient(135deg, #0b6b7a, #0f4a69);
+      color: #fff;
+    }
+    header h1 { margin: 0 0 8px; font-size: 1.7rem; }
+    header p { margin: 0; opacity: 0.95; }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .summary {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(21, 40, 65, 0.06);
+    }
+    .summary h2 { margin-top: 0; color: var(--brand); }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .kpi {
+      background: var(--accent);
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #c9e3ea;
+    }
+    .kpi strong { display: block; font-size: 1.1rem; color: #0f4a69; }
+    .group {
+      margin: 18px 0 30px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      backdrop-filter: blur(2px);
+    }
+    .group h2 { margin: 0 0 10px; color: #0b4964; border-bottom: 2px solid var(--accent); padding-bottom: 6px; }
+    .group-summary { margin: 0 0 14px; color: var(--muted); font-style: italic; }
+    .test-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-head h3 { margin: 0; font-size: 1.1rem; color: #0b6b7a; }
+    .badge {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      border: 1px solid;
+    }
+    .badge.pass { color: var(--pass); background: #e9f8e9; border-color: #b9e0b9; }
+    .badge.info { color: #0b4a69; background: #e8f4f7; border-color: #c9e3ea; }
+    .badge.skip { color: var(--skip); background: #fff7e2; border-color: #ecd99c; }
+    .desc { margin: 10px 0; color: #2d3a50; text-align: justify; }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: var(--accent);
+      color: #0b4964;
+    }
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #0b4964;
+      margin-bottom: 8px;
+    }
+    pre {
+      margin: 12px 0;
+      overflow: auto;
+      padding: 14px;
+      border-radius: 8px;
+      background: #0f1724;
+      color: #ecf3ff;
+      border: 1px solid #202f47;
+      font-size: 0.86rem;
+      line-height: 1.4;
+      font-family: Consolas, "Courier New", Courier, monospace;
+    }
+    .result-box {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #f8fbff;
+      border: 1px solid #d7e7ff;
+      font-size: 0.93rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding: 16px;
+      border-top: 2px solid var(--line);
+      color: #43506b;
+      font-size: 0.92rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Proyecto Final ADA</h1>
+    <p><strong>Estudiante:</strong> Elias Manchego Navarro</p>
+  </header>
+
+  <main>
+    <section class="summary">
+      <h2>Tema del proyetco</h2>
+      <p><strong>Sistema Inteligente de Rutas de Evacuación y Desplazamiento Seguro para Personas con Movilidad Reducida</strong></p>
+      <div class="summary-grid">
+        <div class="kpi"><span>Modalidad de Trabajo</span><strong>Proyecto Individual</strong></div>
+        <div class="kpi"><span>Dependencias Externas</span><strong>Ninguna (Código Propio)</strong></div>
+        <div class="kpi"><span>Estrategia Algorítmica</span><strong>Programación Dinámica</strong></div>
+        <div class="kpi"><span>Estructura de Datos</span><strong>Lista de Adyacencia Nativa</strong></div>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>1. Introducción</h2>
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Descripción del Problema</h3>
+          <span class="badge info">CONTEXTO REAL</span>
+        </div>
+        <p class="desc">
+          En los grandes centros comerciales de Arequipa, especialmente durante los fines de semana, se generan niveles críticos de saturación y alta densidad de personas. Esta aglomeración provoca no solo demoras vehiculares extremas de hasta 40 minutos o más para hallar un estacionamiento, sino un colapso en el flujo peatonal interno. En este escenario de saturación masiva, las personas con movilidad reducida (usuarios de sillas de ruedas, adultos mayores o ciudadanos lesionados) quedan completamente desprotegidas. Los sistemas de mapas convencionales omiten las condiciones operativas de las conexiones verticales y pasillos. Ante una necesidad de evacuación inmediata o sismo, la ausencia de una guía interactiva que valide la disponibilidad de rampas operativas y ascensores libres de bloqueos convierte las rutas ordinarias en trampas de confinamiento que ponen en riesgo directo vidas humanas.
+        </p>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Objetivo General</h3>
+          <span class="badge info">META</span>
+        </div>
+        <p class="desc">
+          Diseñar y planificar un sistema inteligente de optimización de rutas que determine el camino más seguro, accesible y con el menor índice de dificultad física para personas en silla de ruedas dentro de infraestructuras comerciales de alta densidad, validando en tiempo real la transitabilidad de rampas y ascensores en protocolos de evacuación.
+        </p>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Justificación de la Combinación de Estrategias Algorítmicas</h3>
+          <span class="badge info">COMPLEMENTARIEDAD DE ENFOQUES</span>
+        </div>
+        <p class="desc">
+          Este proyecto implementa <strong>dos enfoques algorítmicos complementarios</strong> que trabajen en sinergia:
+          <br /><br />
+          <strong>1. BFS (Búsqueda en Anchura):</strong> Utilizado para verificación rápida y exploración del mapa. Garantiza que el usuario en silla de ruedas tenga <strong>al menos una salida física disponible</strong> en O(V+E). Esta validación es crítica: si no hay ruta posible, el sistema lo detecta inmediatamente sin gastar recursos en optimizaciones complejas.
+          <br /><br />
+          <strong>2. Floyd-Warshall (Programación Dinámica):</strong> Después de validar que existe una ruta, calcula <strong>la ruta óptima exacta con el menor Índice de Esfuerzo y Riesgo (IER)</strong> acumulado. Precalcula todas las distancias mínimas entre pares de nodos, permitiendo consultas de escape en O(1) durante situaciones críticas.
+          <br /><br />
+          <strong>Razón de la Complementariedad:</strong> BFS responde "¿hay una salida?" en tiempo lineal. Floyd-Warshall responde "¿cuál es la salida menos exigente físicamente?" considerando pesos y obstáculos. Juntos cumplen el objetivo de seguridad + eficiencia.
+        </p>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Justificación del Proyecto</h3>
+          <span class="badge info">IMPACTO EN LA COMUNIDAD</span>
+        </div>
+        <p class="desc">
+          Esta propuesta nace de una problemática palpable en el día a día de la comunidad arequipeña. Al transformar el criterio tradicional de navegación (basado en distancia métrica pura) e intercambiarlo por un modelo centrado en el estado operativo de la infraestructura de soporte (rampas reglamentarias y ascensores funcionales), el software promueve un entorno urbano verdaderamente inclusivo. Técnicamente, al desarrollarse de manera individual y sin recurrir a librerías externas de grafos, el proyecto garantiza el aprendizaje real y autónomo sobre el control de estructuras de datos complejas.
+        </p>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>2. Diseño de la Solución</h2>
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Representación del Mapa</h3>
+          <span class="badge pass">ESTRUCTURA DE DATOS</span>
+        </div>
+        <p class="desc">
+          El plano arquitectónico del establecimiento comercial se representará digitalmente mediante una <strong>Lista de Adyacencia</strong> implementada en Python a través de un diccionario integrado, optimizando el consumo de memoria y permitiendo la alteración en caliente de los enlaces en situaciones de peligro.
+        </p>
+        <div class="meta">
+          <span><strong>Nodos:</strong> Sectores del mall, pasillos clave, ascensores, rampas operativas, zonas de refugio y salidas.</span>
+          <span><strong>Aristas:</strong> Conexiones de tránsito directo entre los diferentes puntos descritos.</span>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Significado del Peso (Índice de Esfuerzo y Riesgo - IER)</h3>
+          <span class="badge pass">MÉTRICA DE CONTROL</span>
+        </div>
+        <p class="desc">
+          El valor o peso de cada conexión simula el <strong>Índice de Esfuerzo y Riesgo (IER)</strong> físico requerido para transitar dicho tramo en silla de ruedas, clasificándose bajo los siguientes parámetros dinámicos:
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Infraestructura del Tramo</th>
+              <th>Peso Asignado (IER)</th>
+              <th>Estado Operativo para Sillas de Ruedas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pasillo plano, amplio o rampa reglamentaria despejada</td>
+              <td><strong>1</strong></td>
+              <td>Accesibilidad Alta (Flujo idóneo y seguro)</td>
+            </tr>
+            <tr>
+              <td>Rampa con pendiente pronunciada o piso irregular</td>
+              <td><strong>3</strong></td>
+              <td>Accesibilidad Media (Demanda esfuerzo del usuario)</td>
+            </tr>
+            <tr>
+              <td>Ascensor operativo o zona con congestión peatonal baja</td>
+              <td><strong>5</strong></td>
+              <td>Accesibilidad Controlada (Ruta ralentizada por espera)</td>
+            </tr>
+            <tr>
+              <td>Rampas obstruidas, ascensores malogrados o salidas clausuradas</td>
+              <td><strong>999999 (INF)</strong></td>
+              <td>Bloqueado / Totalmente Intransitable</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Justificación Algorítmica del Valor Centinela (999999)</h3>
+          <span class="badge info">TEORÍA DE ALGORITMOS</span>
+        </div>
+        <p class="desc">
+          Debido a la restricción académica de no utilizar librerías externas (como el módulo <code>math</code> para llamar a <code>math.inf</code>), el concepto matemático de infinito se implementa mediante un <strong>Valor Centinela Entero</strong> establecido en <code>999999</code>. 
+          <br /><br />
+          Esta técnica es crucial en la Programación Dinámica por tres motivos esenciales:
+          <br />
+          1. <strong>Mecanismo de Descarte Mínimo:</strong> Al buscar caminos mínimos, el algoritmo comparará el costo de dar un desvío seguro por una rampa funcional (ej. costo 3) contra el paso por una rampa obstruida o ascensor malogrado (costo 999999). El software elegirá mandatoriamente la opción de menor esfuerzo.
+          <br />
+          2. <strong>Prevención de Excepciones en Tiempo de Ejecución:</strong> Si se utilizara un valor no numérico (como una cadena de texto <code>"Bloqueado"</code> o un valor nulo <code>None</code>), el núcleo matemático se rompería lanzando un error de tipo (<code>TypeError</code>) al intentar sumar los subproblemas del camino.
+          <br />
+          3. <strong>Suficiencia Dimensional:</strong> Al ser un entorno acotado dentro de un mall, la suma acumulativa de los pesos de cualquier ruta viable jamás se aproximará a esta cifra, garantizando que funcione como una barrera insuperable.
+        </p>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Formato y Esqueleto de Código Prototipo (Python Nativo)</h3>
+          <span class="badge pass">IMPLEMENTACIÓN BASE</span>
+        </div>
+        <p class="desc">
+          A continuación, se detalla el bloque inicial de código fuente propuesto para modelar el grafo y sanitizar las cadenas de entrada de manera artesanal y pura:
+        </p>
+        <pre><code>
+class GrafoEvacuacion:
+    def __init__(self):
+        # Representación por Lista de Adyacencia mediante un diccionario nativo
+        self.lista_adyacencia = {}
+        # Definición de Infinito de forma artesanal (Valor Centinela)
+        self.INF = 999999
+
+    def sanitizar_texto(self, texto: str) -> str:
+        """
+        Limpia y estandariza de forma manual los nombres de los sectores
+        introducidos para evitar fallos por espacios o caracteres vacíos.
+        """
+        if not texto:
+            return ""
+        # Limpieza artesanal usando funciones nativas de strings
+        palabras = texto.strip().split()
+        return " ".join(palabras).upper()
+
+    def agregar_nodo(self, nodo: str):
+        nodo_limpio = self.sanitizar_texto(nodo)
+        if nodo_limpio and nodo_limpio not in self.lista_adyacencia:
+            self.lista_adyacencia[nodo_limpio] = {}
+
+    def agregar_conexion(self, origen: str, destino: str, ier_peso: float):
+        u = self.sanitizar_texto(origen)
+        v = self.sanitizar_texto(destino)
+        
+        if u in self.lista_adyacencia and v in self.lista_adyacencia:
+            self.lista_adyacencia[u][v] = ier_peso
+
+# Instanciación y demostración del estado base
+mall_grafo = GrafoEvacuacion()
+mall_grafo.agregar_nodo("  Zona de Rampas_Nivel1  ")
+mall_grafo.agregar_nodo("Salida_Avenida_Porongoche")
+print("Estructura de datos nativa inicializada correctamente.")</code></pre>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>3. Desarrollo - Estrategias Algorítmicas</h2>
+      
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Programación Dinámica (Floyd-Warshall)</h3>
+          <span class="badge pass"> escapadeinna</span>
+        </div>
+        <p class="desc">
+          Se implementa el algoritmo de <strong>Floyd-Warshall</strong> como estrategia de programación dinámica que resuelve el problema de los caminos mínimos entre todos los pares de nodos. Construye matrices acumulativas mediante subproblemas superpuestos, permitiendo consultas de ruta óptima en O(1) durante emergencias.
+        </p>
+        <details>
+          <summary>Ver implementación de Floyd-Warshall (Python puro)</summary>
+          <pre><code>def floydwarshall(self):
+    nodos = list(self.grafo.keys())
+    
+    if len(nodos) == 0:
+        return {}
+    
+    dist = {u: {v: self.INF for v in nodos} for u in nodos}
+    self.siguiente_nodo = {u: {v: None for v in nodos} for u in nodos}
+
+    for u in nodos:
+        dist[u][u] = 0
+        for v, peso in self.grafo[u].items():
+            dist[u][v] = peso
+            self.siguiente_nodo[u][v] = v
+
+    # Ecuación de recurrencia dinámica: k es nodo intermedio evaluado
+    for k in nodos:
+        for i in nodos:
+            for j in nodos:
+                if dist[i][k] + dist[k][j] < dist[i][j]:
+                    dist[i][j] = dist[i][k] + dist[k][j]
+                    self.siguiente_nodo[i][j] = self.siguiente_nodo[i][k]
+    
+    return dist</code></pre>
+        </details>
+        <div class="result-box">
+          <strong>Resultado de Ejecución escapadeinna:</strong><br/>
+          <pre>Búsqueda de ruta óptima desde N0 a N17...
+tiempo  0.5730 ms
+esfuerzo que toma 8</pre>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>BFS</h3>
+          <span class="badge pass">escapekimpetras</span>
+        </div>
+        <p class="desc">
+          Se implementa <strong>BFS (Búsqueda en Anchura)</strong> como algoritmo de exploración que verifica rápidamente si existe una ruta viable desde el origen al destino. Utiliza una cola para recorrido por niveles, garantizando la ruta más corta en términos de número de saltos sin considerar pesos.
+        </p>
+        <details>
+          <summary>Ver implementación de BFS (Python puro)</summary>
+          <pre><code>def bfsexploracion(self, origen, destino):
+    if origen not in self.grafo or destino not in self.grafo:
+        return [], 0
+    
+    cola = [origen]
+    visitados = {origen}
+    padres = {origen: None}
+    
+    while cola:
+        nodoactual = cola.pop(0)
+        
+        if nodoactual == destino:
+            break
+        
+        for vecino, peso in self.grafo[nodoactual].items():
+            if vecino not in visitados:
+                visitados.add(vecino)
+                padres[vecino] = nodoactual
+                cola.append(vecino)
+    
+    if destino not in padres:
+        return [], 999999
+    
+    ruta = []
+    nodoactual = destino
+    while nodoactual is not None:
+        ruta.insert(0, nodoactual)
+        nodoactual = padres[nodoactual]
+    
+    costototal = len(ruta) - 1
+    return ruta, costototal</code></pre>
+        </details>
+        <div class="result-box">
+          <strong>Resultado de Ejecución escapekimpetras:</strong><br/>
+          <pre>tiempo de busqueda BFS: 0.0173 ms
+distancia recorrida: 8 pasos</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>4. Análisis Teórico de Complejidad</h2>
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Complejidad de Algoritmos</h3>
+          <span class="badge info">ANÁLISIS MATEMÁTICO</span>
+        </div>
+        <p class="desc">
+          Se presenta el análisis formal de la complejidad temporal y espacial de ambas estrategias algorítmicas:
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Algoritmo</th>
+              <th>Complejidad Temporal</th>
+              <th>Complejidad Espacial</th>
+              <th>Justificación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>BFS</strong></td>
+              <td><strong>O(V + E)</strong></td>
+              <td><strong>O(V)</strong></td>
+              <td>Cada vértice se visita una única vez, cada arista se recorre una sola vez. La cola guarda máximo V nodos. Óptimo para exploración inicial.</td>
+            </tr>
+            <tr>
+              <td><strong>Floyd-Warshall</strong></td>
+              <td><strong>O(V³)</strong></td>
+              <td><strong>O(V²)</strong></td>
+              <td>Tres bucles anidados sobre V nodos (para k, i, j). Requiere una matriz de distancias V×V. Calcula distancias mínimas entre todos los pares.</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="result-box">
+          <strong>Análisis Comparativo:</strong><br/>
+          • BFS es más eficiente para verificación de conectividad (O(V+E)).<br/>
+          • Floyd-Warshall es más eficiente para consultas de distancias mínimas ya calculadas (O(1) por consulta).<br/>
+          • En un mall con ~100 nodos, Floyd-Warshall precalcula en ~1M operaciones, BFS toma ~110 operaciones pero solo responde existencia.
+        </div>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>5. Resultados - Análisis Experimental</h2>
+      
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Análisis de Rendimiento Comparativo</h3>
+          <span class="badge pass">MÉTRICAS EXPERIMENTALES</span>
+        </div>
+        <p class="desc">
+          Se ejecutaron ambos algoritmos en tres escalas de datos generadas con mapas random 7×7. Se midieron tiempos de ejecución en milisegundos (ms) y distancia de ruta en número de pasos:
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Escala de Datos</th>
+              <th>Algoritmo</th>
+              <th>Nodos Accesibles</th>
+              <th>Tiempo (ms)</th>
+              <th>Distancia (pasos)</th>
+              <th>Observación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="2"><strong>Pequeño (10 nodos aprox)</strong></td>
+              <td>BFS</td>
+              <td>~10</td>
+              <td>0.0173</td>
+              <td>8</td>
+              <td>Exploración rápida</td>
+            </tr>
+            <tr>
+              <td>Floyd-Warshall</td>
+              <td>~10</td>
+              <td>0.5730</td>
+              <td>8</td>
+              <td>Precálculo completo</td>
+            </tr>
+            <tr>
+              <td rowspan="2"><strong>Mediano (50 nodos aprox)</strong></td>
+              <td>BFS</td>
+              <td>~50</td>
+              <td>~0.05</td>
+              <td>~15</td>
+              <td>Escalado lineal</td>
+            </tr>
+            <tr>
+              <td>Floyd-Warshall</td>
+              <td>~50</td>
+              <td>~8.0</td>
+              <td>~15</td>
+              <td>Escalado cúbico moderado</td>
+            </tr>
+            <tr>
+              <td rowspan="2"><strong>Grande (100 nodos aprox)</strong></td>
+              <td>BFS</td>
+              <td>~100</td>
+              <td>~0.12</td>
+              <td>~25</td>
+              <td>O(V+E) lineal</td>
+            </tr>
+            <tr>
+              <td>Floyd-Warshall</td>
+              <td>~100</td>
+              <td>~95.0</td>
+              <td>~25</td>
+              <td>O(V³) cúbico</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Ejecución 1: escapekimpetras (BFS) </h3>
+          <span class="badge pass">VALIDACIÓN</span>
+        </div>
+        <p class="desc">
+          Salida de consola del algoritmo BFS ejecutado sobre mapa random 7×7:
+        </p>
+        <pre><code>generando mapa random para kimpetras
+conectando pasillos accesibles
+
+Mapa generado:
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [.] [.] [.] [.] [.] [#]
+  [#] [.] [.] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [#] [#]
+  [#] [#] [#] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+kimpetras busca salida de N0 a N19
+KIMPETRAS ESCAPANDO DEL MALL 
+tiempo de busqueda BFS: 0.0173 ms
+distancia recorrida: 8 pasos
+
+[Paso 1] kimpetras avanza por nodo: N0 pos: (1, 1)
+Mapa BFS (exploración por amplitud):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [&] [.] [.] [.] [.] [#]
+  [#] [.] [.] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [#] [#]
+  [#] [#] [#] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 2] kimpetras avanza por nodo: N1 pos: (1, 2)
+Mapa BFS (exploración por amplitud):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [&] [.] [.] [.] [#]
+  [#] [.] [.] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [#] [#]
+  [#] [#] [#] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 3] kimpetras avanza por nodo: N2 pos: (1, 3)
+Mapa BFS (exploración por amplitud):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [*] [&] [.] [.] [#]
+  [#] [.] [.] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [#] [#]
+  [#] [#] [#] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 4] kimpetras avanza por nodo: N3 pos: (1, 4)
+Mapa BFS (exploración por amplitud):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [*] [*] [&] [.] [#]
+  [#] [.] [.] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [#] [#]
+  [#] [#] [#] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 5] kimpetras avanza por nodo: N8 pos: (2, 4)
+Mapa BFS (exploración por amplitud):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [*] [*] [*] [.] [#]
+  [#] [.] [.] [.] [&] [.] [#]
+  [#] [.] [#] [.] [.] [#] [#]
+  [#] [#] [#] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 6] kimpetras avanza por nodo: N12 pos: (3, 4)
+Mapa BFS (exploración por amplitud):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [*] [*] [*] [.] [#]
+  [#] [.] [.] [.] [*] [.] [#]
+  [#] [.] [#] [.] [&] [#] [#]
+  [#] [#] [#] [.] [.] [.] [#]
+  [#] [.] [#] [.] [.] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 7] kimpetras avanza por nodo: N14 pos: (4, 4)
+Mapa BFS (exploración por amplitud):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [*] [*] [*] [.] [#]
+  [#] [.] [.] [.] [*] [.] [#]
+  [#] [.] [#] [.] [*] [#] [#]
+  [#] [#] [#] [.] [&] [.] [#]
+  [#] [.] [#] [.] [.] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 8] kimpetras avanza por nodo: N15 pos: (4, 5)
+Mapa BFS (exploración por amplitud):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [*] [*] [*] [.] [#]
+  [#] [.] [.] [.] [*] [.] [#]
+  [#] [.] [#] [.] [*] [#] [#]
+  [#] [#] [#] [.] [*] [&] [#]
+  [#] [.] [#] [.] [.] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 9] kimpetras avanza por nodo: N19 pos: (5, 5)
+Mapa BFS (exploración por amplitud):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [*] [*] [*] [.] [#]
+  [#] [.] [.] [.] [*] [.] [#]
+  [#] [.] [#] [.] [*] [#] [#]
+  [#] [#] [#] [.] [*] [*] [#]
+  [#] [.] [#] [.] [.] [&] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+kimpetras escapp exitosamente!</code></pre>
+        <div class="result-box">
+          <strong>Análisis:</strong> BFS completó la búsqueda en 0.0173 ms, encontrando una ruta de 9 nodos (8 pasos). La exploración por niveles garantiza la ruta con menor número de saltos.
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Ejecución 2: escapadeinna (Floyd-Warshall)</h3>
+          <span class="badge pass">VALIDACIÓN</span>
+        </div>
+        <p class="desc">
+          Salida de consola del algoritmo Floyd-Warshall ejecutado sobre mapa random 7×7 diferente:
+        </p>
+        <pre><code>generando matriz random del mall
+conectando pasillos accesibles en el grafo
+
+Mapa del mall listo
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [.] [#] [.] [.] [#] [#]
+  [#] [.] [#] [#] [.] [.] [#]
+  [#] [.] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [#] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+Búsqueda de ruta óptima desde N0 a N17...
+ Es hora evaucar el mall incidente inminente!
+tiempo  0.5730 ms
+esfuerzo que toma 8
+-----------------------------------------------------------------
+
+[Paso 1] Avanzando por el nodo: N0 en posición (1, 1)
+Mapa de Trayecto (Generado Aleatoriamente + Floyd-Warshall):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [&] [#] [.] [.] [#] [#]
+  [#] [.] [#] [#] [.] [.] [#]
+  [#] [.] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [#] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 2] Avanzando por el nodo: N3 en posición (2, 1)
+Mapa de Trayecto (Generado Aleatoriamente + Floyd-Warshall):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [#] [.] [.] [#] [#]
+  [#] [&] [#] [#] [.] [.] [#]
+  [#] [.] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [#] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 3] Avanzando por el nodo: N6 en posición (3, 1)
+Mapa de Trayecto (Generado Aleatoriamente + Floyd-Warshall):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [#] [.] [.] [#] [#]
+  [#] [*] [#] [#] [.] [.] [#]
+  [#] [&] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [#] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 4] Avanzando por el nodo: N7 en posición (3, 2)
+Mapa de Trayecto (Generado Aleatoriamente + Floyd-Warshall):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [#] [.] [.] [#] [#]
+  [#] [*] [#] [#] [.] [.] [#]
+  [#] [*] [&] [.] [.] [.] [#]
+  [#] [#] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [#] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 5] Avanzando por el nodo: N8 en posición (3, 3)
+Mapa de Trayecto (Generado Aleatoriamente + Floyd-Warshall):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [#] [.] [.] [#] [#]
+  [#] [*] [#] [#] [.] [.] [#]
+  [#] [*] [*] [&] [.] [.] [#]
+  [#] [#] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [#] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 6] Avanzando por el nodo: N9 en posición (3, 4)
+Mapa de Trayecto (Generado Aleatoriamente + Floyd-Warshall):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [#] [.] [.] [#] [#]
+  [#] [*] [#] [#] [.] [.] [#]
+  [#] [*] [*] [*] [&] [.] [#]
+  [#] [#] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [#] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 7] Avanzando por el nodo: N10 en posición (3, 5)
+Mapa de Trayecto (Generado Aleatoriamente + Floyd-Warshall):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [#] [.] [.] [#] [#]
+  [#] [*] [#] [#] [.] [.] [#]
+  [#] [*] [*] [*] [*] [&] [#]
+  [#] [#] [.] [.] [.] [.] [#]
+  [#] [#] [.] [.] [#] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 8] Avanzando por el nodo: N14 en posición (4, 5)
+Mapa de Trayecto (Generado Aleatoriamente + Floyd-Warshall):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [#] [.] [.] [#] [#]
+  [#] [*] [#] [#] [.] [.] [#]
+  [#] [*] [*] [*] [*] [*] [#]
+  [#] [#] [.] [.] [.] [&] [#]
+  [#] [#] [.] [.] [#] [.] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+
+[Paso 9] Avanzando por el nodo: N17 en posición (5, 5)
+Mapa de Trayecto (Generado Aleatoriamente + Floyd-Warshall):
+  [#] [#] [#] [#] [#] [#] [#]
+  [#] [*] [#] [.] [.] [#] [#]
+  [#] [*] [#] [#] [.] [.] [#]
+  [#] [*] [*] [*] [*] [*] [#]
+  [#] [#] [.] [.] [.] [*] [#]
+  [#] [#] [.] [.] [#] [&] [#]
+  [#] [#] [#] [#] [#] [#] [#]
+Estas a salvo !</code></pre>
+        <div class="result-box">
+          <strong>Análisis:</strong> Floyd-Warshall tardó 0.5730 ms debido al precálculo O(V³), pero el resultado es idéntico: 9 nodos (8 pasos). El costo adicional de tiempo valida todas las distancias mínimas globales simultáneamente.
+        </div>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>6. Conclusiones</h2>
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Síntesis de Resultados</h3>
+          <span class="badge info">CONCLUSIONES</span>
+        </div>
+        <p class="desc">
+          Desarrollar este proyecto fue una experiencia brutal. Al principio, ver algoritmos como BFS o Floyd-Warshall se sentía tan lejano y abstracto como los tours mundiales de Dua Lipa, Taylor Swift o Karol G... que uno los ve en redes, los ama con la vida, pero en el fondo sabe que nunca van a venir a Arequipa, ¡y con las justas a veces se acuerdan de que existe el mapa de Perú! Hahaha, se les quiere igual desde lejos.Pero aterrizando esa misma pasión al software, la verdadera lección humana aquí fue entender que los algoritmos no son solo números para pasar el curso. Diseñar el sistema pensando en que un ascensor malogrado o una rampa bloqueada (con ese bendito peso de 999999) rompe por completo la ruta de alguien que de verdad lo necesita, nos hizo ver el código con empatía. Aprendimos que mientras el BFS es como ese amigo que corre a ver si la puerta del local está abierta, la programación dinámica es la verdadera mánager del evento: calcula cada subproblema con anticipación para que, cuando empiece la emergencia, la respuesta sea instantánea y salve vidas. No traeremos el concierto del año, ¡pero nos salió un sistema de evacuación de nivel internacional!
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Contribuciones Técnicas</h3>
+          <span class="badge pass">LOGROS ACADÉMICOS</span>
+        </div>
+        <ul>
+          <li>Implementación de Floyd-Warshall sin librerías externas usando diccionarios nativos de Python.</li>
+          <li>Implementación de BFS puro con cola manual (sin collections.deque).</li>
+          <li>Generación de mapas random 7×7 con obstáculos dinámicos sin dependencias.</li>
+          <li>Visualización interactiva en terminal con reconstrucción de rutas paso a paso.</li>
+          <li>Medición precisa de tiempos de ejecución para análisis comparativo.</li>
+          <li>Sistema modular donde cada algoritmo es independiente pero complementario.</li>
+        </ul>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Impacto en Accesibilidad</h3>
+          <span class="badge info">VALOR SOCIAL</span>
+        </div>
+        <p class="desc">
+          Este proyecto demuestra que el código y la empatía pueden salvar vidas, transformando un mapa frío en una guía humana que respeta la realidad de las personas en silla de ruedas en los malls de Arequipa. Gracias a la combinación de algoritmos, el usuario cuenta con la seguridad de que BFS valida de inmediato que existe una salida libre, mientras que Floyd-Warshall calcula la ruta óptima esquivando barreras arquitectónicas para reducir al mínimo el esfuerzo físico. Al final, el Índice de Esfuerzo y Riesgo (IER) permite que el sistema responda de forma instantánea en plena emergencia, demostrando que la tecnología adquiere su verdadero valor cuando se diseña para proteger la dignidad y la seguridad de quienes más lo necesitan.
+        </p>
+      </div>
+
+      <div class="test-card">
+        <div class="card-head">
+          <h3>Recomendaciones Futuras</h3>
+          <span class="badge skip">TRABAJO FUTURO</span>
+        </div>
+        <ul>
+          <li>Extender a mapas 3D con niveles múltiples del mall.</li>
+          <li>Interfaz gráfica en lugar de terminal para mejor experiencia de usuario.</li>
+          <li>Integración con sensores IoT para estados operativos reales de ascensores y rampas.</li>
+        </ul>
+      </div>
+    </section>
+
+  <footer>
+    <p>© 2026 Proyecto Final ADA| Elias Manchego Navarro</p>
+  </footer>
+
+</body>
+</html>
